@@ -2,6 +2,7 @@ package geometry
 
 import (
 	"math"
+	"fmt"
 )
 
 // A Vector3 represents a vector in the three dimensional space.
@@ -66,6 +67,10 @@ func (v *Vector3) Normalize() {
 	v.MultiplyWithScalar(1.0 / norm)
 }
 
+func (v Vector3)String() string {
+	return fmt.Sprintf("X: %f, Y: %f, Z: %f", v.x, v.y, v.z)
+}
+
 // ScalarProduct3 calculates the scalar (dot) product of two vector3.
 func ScalarProduct3(a, b Vector3) float64 {
 	result := a.X() * b.X()
@@ -87,4 +92,14 @@ func AngleBetween(a, b Vector3) float64 {
 	numerator := ScalarProduct3(a, b)
 	denominator := a.Length() * b.Length()
 	return math.Acos(numerator / denominator)
+}
+
+func Add(a, b Vector3) Vector3 {
+	a.Add(b)
+	return a
+}
+
+func Subtract(a, b Vector3) Vector3 {
+	a.Subtract(b)
+	return a
 }
