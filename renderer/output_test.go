@@ -16,6 +16,6 @@ var _ = Describe("Output", func() {
 				output.SetPixel(geometry.NewVector3(10, float64(i*i), float64(j*j)), i, j)
 			}
 		}
-		output.Save()
+		output.Save("image.jpg")
 	})
 })

@@ -28,7 +28,7 @@ func NewCubeInput() Input {
 }
 
 func (c cubeInput) HasNextTriangle() bool {
-	return c.current+1 < len(c.triangles)
+	return c.current < len(c.triangles)
 }
 
 func (c *cubeInput) NextTriangle() geometry.Triangle {
@@ -45,8 +45,8 @@ func (c *cubeInput) Reset() {
 }
 
 var triangles = []geometry.Vector3{
-	geometry.NewVector3(-5, 10, -5), geometry.NewVector3(5, 10, -5), geometry.NewVector3(5, 10, 5), geometry.NewVector3(255, 255, 0), //front
-	geometry.NewVector3(-5, 10, -5), geometry.NewVector3(5, 10, 5), geometry.NewVector3(-5, 10, 5), geometry.NewVector3(255, 255, 0),
+	// geometry.NewVector3(-5, 10, -5), geometry.NewVector3(5, 10, -5), geometry.NewVector3(5, 10, 5), geometry.NewVector3(255, 255, 0), //front
+	// geometry.NewVector3(-5, 10, -5), geometry.NewVector3(5, 10, 5), geometry.NewVector3(-5, 10, 5), geometry.NewVector3(255, 255, 0),
 	geometry.NewVector3(-5, 10, -5), geometry.NewVector3(5, 10, -5), geometry.NewVector3(-5, 20, -5), geometry.NewVector3(255, 0, 0), //unten
 	geometry.NewVector3(5, 10, -5), geometry.NewVector3(-5, 20, -5), geometry.NewVector3(5, 20, -5), geometry.NewVector3(255, 0, 0),
 	geometry.NewVector3(5, 10, -5), geometry.NewVector3(5, 10, 5), geometry.NewVector3(5, 20, -5), geometry.NewVector3(0, 255, 0), //rechts

@@ -14,7 +14,7 @@ type Output interface {
   SetPixel(c geometry.Vector3, x, y int)
   SetDepth(depth float64, x, y int)
   DepthAt(x, y int) float64
-  Save()
+  Save(filename string)
 }
 
 func NewSimpleOutput(height, width int) Output{
@@ -59,8 +59,8 @@ func (s simpleOutput)DepthAt(x, y int) float64 {
   return 0
 }
 
-func (s simpleOutput)Save() {
-  f, err := os.Create("image.jpg")
+func (s simpleOutput)Save(filename string) {
+  f, err := os.Create(filename)
   defer f.Close()
   if err != nil {
     return
