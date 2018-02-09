@@ -39,6 +39,7 @@ func (r *Ray) HitsPlane(p Plane) bool {
 			hit.MultiplyWithScalar(t)
 			hit.Add(r.p)
 			r.hitPoint = hit
+			r.isHit = true
 			return true
 		}
 	}

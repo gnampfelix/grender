@@ -74,4 +74,12 @@ var _ = Describe("Vector3", func() {
 		Expect(a.Y()).Should(BeNumerically("~", 0.0/5.0))
 		Expect(a.Z()).Should(BeNumerically("~", 4.0/5.0))
 	})
+
+	It("should subtract two vectors", func() {
+		a := NewVector3(1,2,3)
+		b := NewVector3(1,2,3)
+		c := Subtract(a, b)
+		Expect(c.X()).Should(Equal(0.0))
+		Expect(a.X()).Should(Equal(1.0))
+	})
 })

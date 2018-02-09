@@ -1,5 +1,9 @@
 package geometry
 
+import (
+	"fmt"
+)
+
 type Triangle struct {
 	a, b, c Vector3
 	color   Vector3
@@ -32,6 +36,10 @@ func (t Triangle) IsHit(ray *Ray) bool {
 		}
 	}
 	return false
+}
+
+func (t Triangle)String()string{
+	return fmt.Sprintf("A{%s}\nB{%s}\nC{%s}", t.A(), t.B(), t.C())
 }
 
 func (t Triangle) A() Vector3 {

@@ -1,8 +1,8 @@
 package geometry
 
 import (
-	"math"
 	"fmt"
+	"math"
 )
 
 // A Vector3 represents a vector in the three dimensional space.
@@ -67,7 +67,7 @@ func (v *Vector3) Normalize() {
 	v.MultiplyWithScalar(1.0 / norm)
 }
 
-func (v Vector3)String() string {
+func (v Vector3) String() string {
 	return fmt.Sprintf("X: %f, Y: %f, Z: %f", v.x, v.y, v.z)
 }
 
