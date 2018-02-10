@@ -17,7 +17,7 @@ type cubeInput struct {
 
 func NewCubeInput() Input {
 	tris := make([]geometry.Triangle, 0)
-	for i := 0; i < (len(triangles)/4); i++ {
+	for i := 0; i < (len(triangles) / 4); i++ {
 		currentTri := geometry.NewTriangleWithName(triangles[i*4], triangles[i*4+1], triangles[i*4+2], triangles[i*4+3], names[i])
 		tris = append(tris, currentTri)
 	}
@@ -46,7 +46,7 @@ func (c *cubeInput) Reset() {
 }
 
 var names = []string{
-	"front", "front", "unten", "unten", "rechts", "rechts", "links", "links","oben","oben",
+	"front", "front", "unten", "unten", "rechts", "rechts", "links", "links", "oben", "oben",
 }
 
 var triangles = []geometry.Vector3{

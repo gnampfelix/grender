@@ -21,14 +21,14 @@ var _ = Describe("Depthbuffer", func() {
 
 		set = buffer.SetDepthIfCloser(10.0, 0, 0)
 		Expect(set).Should(BeTrue())
-		})
+	})
 
-		It("should not override a value", func() {
-			buffer := NewMapBuffer()
-			set := buffer.SetDepthIfCloser(12.0, 0, 0)
-			Expect(set).Should(BeTrue())
+	It("should not override a value", func() {
+		buffer := NewMapBuffer()
+		set := buffer.SetDepthIfCloser(12.0, 0, 0)
+		Expect(set).Should(BeTrue())
 
-			set = buffer.SetDepthIfCloser(14.0, 0, 0)
-			Expect(set).Should(BeFalse())
-			})
+		set = buffer.SetDepthIfCloser(14.0, 0, 0)
+		Expect(set).Should(BeFalse())
+	})
 })
