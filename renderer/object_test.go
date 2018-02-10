@@ -7,9 +7,9 @@ import (
 	. "github.com/gnampfelix/grender/renderer"
 )
 
-var _ = Describe("Input", func() {
+var _ = Describe("Object", func() {
 	It("should return some tris", func() {
-		input := NewCubeInput()
+		input := NewCube()
 
 		Expect(input.HasNextTriangle()).Should(BeTrue())
 		nextTri := input.NextTriangle()

@@ -42,15 +42,19 @@ func (g gnampfelixRenderer) Render(input Input) Output {
 			screenPoint.Add(screenV)
 
 			ray := geometry.NewRay(camera.Origin(), geometry.Subtract(screenPoint, camera.Origin()))
-			for input.HasNextTriangle() {
-				currentTri := input.NextTriangle()
-				if currentTri.IsHit(&ray) {
-					hitPoint, _ := ray.HitPoint()
-					distance := geometry.Subtract(hitPoint, camera.Origin()).Length()
-					if depth.SetDepthIfCloser(distance, x, y) {
-						output.SetPixel(currentTri.Color(), x, y)
+			for input.HasNextObject() {
+				currentObject := input.NextObject()
+				for currentObject.HasNextTriangle() {
+					currentTri := currentObject.NextTriangle()
+					if currentTri.IsHit(&ray) {
+						hitPoint, _ := ray.HitPoint()
+						distance := geometry.Subtract(hitPoint, camera.Origin()).Length()
+						if depth.SetDepthIfCloser(distance, x, y) {
+							output.SetPixel(currentTri.Color(), x, y)
+						}
 					}
 				}
+				currentObject.Reset()
 			}
 			input.Reset()
 		}
