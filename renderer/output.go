@@ -4,7 +4,7 @@ import (
 	"github.com/gnampfelix/grender/geometry"
 	"image"
 	"image/color"
-	"image/jpeg"
+	"image/png"
 	"os"
 )
 
@@ -48,6 +48,6 @@ func (s simpleOutput) Save(filename string) {
 	if err != nil {
 		return
 	}
-	_ = jpeg.Encode(f, s.image, nil)
+	_ = png.Encode(f, s.image)
 
 }

@@ -12,6 +12,6 @@ var _ = Describe("Renderer", func() {
 		input := NewCubeInput()
 		renderer := New()
 		output := renderer.Render(input)
-		output.Save("renderer.jpg")
+		output.Save("renderer.png")
 	})
 })
