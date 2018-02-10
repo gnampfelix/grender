@@ -33,10 +33,10 @@ var _ = Describe("Vector4", func() {
 			NewVector4(0, 0, 0, 1),
 		)
 
-		v.Transform(m)
-		Expect(v.X()).Should(Equal(1.5))
-		Expect(v.Y()).Should(Equal(0.0))
-		Expect(v.Z()).Should(Equal(1.5))
-		Expect(v.A()).Should(Equal(1.0))
+		v2 := v.Transform(m)
+		Expect(v2.X()).Should(Equal(1.5))
+		Expect(v2.Y()).Should(Equal(0.0))
+		Expect(v2.Z()).Should(Equal(1.5))
+		Expect(v2.A()).Should(Equal(1.0))
 	})
 })
