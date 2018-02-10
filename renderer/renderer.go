@@ -15,25 +15,15 @@ func New() Renderer {
 }
 
 func (g gnampfelixRenderer) Render(input Input) Output {
-	width := 1000
-	height := 1000
-
+	width := 1600
+	height := 900
 	output := NewSimpleOutput(height, width)
 	depth := NewMapBuffer()
 
-	camera := geometry.NewVector3(6, 0, 10)
-	leftBottom := geometry.NewVector3(4, 2, 12)
-	leftTop := geometry.NewVector3(4, 2, 8)
-	rightBottom := geometry.NewVector3(8, 2, 12)
-	//rightTop := geometry.NewVector3(8, 2, 8)
-
-	//bottom := geometry.NewRay(leftBottom, geometry.Subtract(rightBottom, leftBottom))
-	//left := geometry.NewRay(leftBottom, geometry.Subtract(leftTop, leftBottom))
-
-	screen := geometry.NewPlane(leftBottom, geometry.Subtract(rightBottom, leftBottom), geometry.Subtract(leftTop, leftBottom))
-
-	lineLength := geometry.Subtract(rightBottom, leftBottom).Length()
-	colLength := geometry.Subtract(leftTop, leftBottom).Length()
+	camera := NewCamera(geometry.NewVector3(20, -10, 10), 1.15)
+	screen := camera.Screen()
+	lineLength := camera.LineLength()
+	colLength := camera.ColLength()
 
 	pixelLineStep := lineLength / float64(width)
 	pixelColStep := colLength / float64(height)
@@ -51,12 +41,12 @@ func (g gnampfelixRenderer) Render(input Input) Output {
 			screenPoint.Add(screenU)
 			screenPoint.Add(screenV)
 
-			ray := geometry.NewRay(camera, geometry.Subtract(screenPoint, camera))
+			ray := geometry.NewRay(camera.Origin(), geometry.Subtract(screenPoint, camera.Origin()))
 			for input.HasNextTriangle() {
 				currentTri := input.NextTriangle()
 				if currentTri.IsHit(&ray) {
 					hitPoint, _ := ray.HitPoint()
-					distance := geometry.Subtract(hitPoint, camera).Length()
+					distance := geometry.Subtract(hitPoint, camera.Origin()).Length()
 					if depth.SetDepthIfCloser(distance, x, y) {
 						output.SetPixel(currentTri.Color(), x, y)
 					}
