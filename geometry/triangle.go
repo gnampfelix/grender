@@ -7,7 +7,7 @@ import (
 type Triangle struct {
 	a, b, c Vector3
 	color   Vector3
-	name string
+	name    string
 }
 
 func NewTriangle(a, b, c Vector3, color Vector3) Triangle {
@@ -45,7 +45,7 @@ func (t Triangle) IsHit(ray *Ray) bool {
 	return false
 }
 
-func (t Triangle)String()string{
+func (t Triangle) String() string {
 	return fmt.Sprintf("%s: A{%s}\nB{%s}\nC{%s}", t.name, t.A(), t.B(), t.C())
 }
 
