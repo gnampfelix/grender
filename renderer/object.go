@@ -14,6 +14,7 @@ type Object interface {
 type cubeObject struct {
     triangles []geometry.Triangle
     current   int
+    transformation geometry.Matrix44
 }
 
 func NewCube() Object {
@@ -26,6 +27,12 @@ func NewCube() Object {
     return &cubeObject{
         triangles: tris,
         current:   0,
+        transformation: geometry.NewMatrix44(
+            geometry.NewVector4(1, 0, 0, 0),
+            geometry.NewVector4(0, 1, 0, 0),
+            geometry.NewVector4(0, 0, 1, 0),
+            geometry.NewVector4(0, 0, 0, 1),
+        ),
     }
 }
 
@@ -35,9 +42,9 @@ func (c cubeObject) HasNextTriangle() bool {
 
 func (c *cubeObject) NextTriangle() geometry.Triangle {
 	if c.HasNextTriangle() {
-		result := c.triangles[c.current]
+		tri := c.triangles[c.current]
 		c.current++
-		return result
+        return tri.Transform(c.transformation)
 	}
 	return geometry.Triangle{}
 }
@@ -47,7 +54,7 @@ func (c *cubeObject) Reset() {
 }
 
 func (c *cubeObject) Transform(matrix geometry.Matrix44) {
-
+    c.transformation = matrix
 }
 
 var names = []string{
@@ -55,15 +62,15 @@ var names = []string{
 }
 
 var triangles = []geometry.Vector3{
-	geometry.NewVector3(-5, 10, -5), geometry.NewVector3(5, 10, -5), geometry.NewVector3(5, 10, 5), geometry.NewVector3(255, 255, 0), //front
-	geometry.NewVector3(-5, 10, -5), geometry.NewVector3(5, 10, 5), geometry.NewVector3(-5, 10, 5), geometry.NewVector3(255, 255, 0),
-	geometry.NewVector3(-5, 10, -5), geometry.NewVector3(5, 10, -5), geometry.NewVector3(-5, 20, -5), geometry.NewVector3(255, 0, 0), //unten
-	geometry.NewVector3(5, 10, -5), geometry.NewVector3(-5, 20, -5), geometry.NewVector3(5, 20, -5), geometry.NewVector3(255, 0, 0),
-	geometry.NewVector3(5, 10, -5), geometry.NewVector3(5, 10, 5), geometry.NewVector3(5, 20, -5), geometry.NewVector3(0, 255, 0), //rechts
-	geometry.NewVector3(5, 10, 5), geometry.NewVector3(5, 20, 5), geometry.NewVector3(5, 20, -5), geometry.NewVector3(0, 255, 0),
+	geometry.NewVector3(-5, -5, -5), geometry.NewVector3(5, -5, -5), geometry.NewVector3(5, -5, 5), geometry.NewVector3(255, 255, 0), //front
+	geometry.NewVector3(-5, -5, -5), geometry.NewVector3(5, -5, 5), geometry.NewVector3(-5, -5, 5), geometry.NewVector3(255, 255, 0),
+	geometry.NewVector3(-5, -5, -5), geometry.NewVector3(5, -5, -5), geometry.NewVector3(-5, 5, -5), geometry.NewVector3(255, 0, 0), //unten
+	geometry.NewVector3(5, -5, -5), geometry.NewVector3(-5, 5, -5), geometry.NewVector3(5, 5, -5), geometry.NewVector3(255, 0, 0),
+	geometry.NewVector3(5, -5, -5), geometry.NewVector3(5, -5, 5), geometry.NewVector3(5, 5, -5), geometry.NewVector3(0, 255, 0), //rechts
+	geometry.NewVector3(5, -5, 5), geometry.NewVector3(5, 5, 5), geometry.NewVector3(5, 5, -5), geometry.NewVector3(0, 255, 0),
 
-	geometry.NewVector3(-5, 10, -5), geometry.NewVector3(-5, 10, 5), geometry.NewVector3(-5, 20, -5), geometry.NewVector3(0, 0, 255), //links
-	geometry.NewVector3(-5, 10, 5), geometry.NewVector3(-5, 20, -5), geometry.NewVector3(-5, 20, 5), geometry.NewVector3(0, 0, 255),
-	geometry.NewVector3(-5, 10, 5), geometry.NewVector3(5, 10, 5), geometry.NewVector3(-5, 20, 5), geometry.NewVector3(0, 255, 255), //oben
-	geometry.NewVector3(5, 10, 5), geometry.NewVector3(-5, 20, 5), geometry.NewVector3(5, 20, 5), geometry.NewVector3(0, 255, 255),
+	geometry.NewVector3(-5, -5, -5), geometry.NewVector3(-5, -5, 5), geometry.NewVector3(-5, 5, -5), geometry.NewVector3(0, 0, 255), //links
+	geometry.NewVector3(-5, -5, 5), geometry.NewVector3(-5, 5, -5), geometry.NewVector3(-5, 5, 5), geometry.NewVector3(0, 0, 255),
+	geometry.NewVector3(-5, -5, 5), geometry.NewVector3(5, -5, 5), geometry.NewVector3(-5, 5, 5), geometry.NewVector3(0, 255, 255), //oben
+	geometry.NewVector3(5, -5, 5), geometry.NewVector3(-5, 5, 5), geometry.NewVector3(5, 5, 5), geometry.NewVector3(0, 255, 255),
 }

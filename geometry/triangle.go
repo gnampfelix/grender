@@ -64,3 +64,12 @@ func (t Triangle) C() Vector3 {
 func (t Triangle) Color() Vector3 {
 	return t.color
 }
+
+func (t Triangle) Transform(matrix Matrix44) Triangle {
+	return NewTriangle(
+		NewVector4FromVector3(t.A(), 1).Transform(matrix).ExtractVector3(),
+		NewVector4FromVector3(t.B(), 1).Transform(matrix).ExtractVector3(),
+		NewVector4FromVector3(t.C(), 1).Transform(matrix).ExtractVector3(),
+		t.Color(),
+	)
+}

@@ -20,7 +20,7 @@ func (g gnampfelixRenderer) Render(input Input) Output {
 	output := NewSimpleOutput(height, width)
 	depth := NewMapBuffer()
 
-	camera := NewCamera(geometry.NewVector3(20, -10, 10), 1.15)
+	camera := NewCamera(geometry.NewVector3(0, -20, 0), 2)
 	screen := camera.Screen()
 	lineLength := camera.LineLength()
 	colLength := camera.ColLength()
