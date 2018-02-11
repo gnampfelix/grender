@@ -14,25 +14,22 @@ type Object interface {
 type cubeObject struct {
     triangles []geometry.Triangle
     current   int
-    transformation geometry.Matrix44
+    transformedTriangles []geometry.Triangle
 }
 
 func NewCube() Object {
     tris := make([]geometry.Triangle, 0)
+    transformedTriangles := make([]geometry.Triangle, 0)
     for i := 0; i < (len(triangles) / 4); i++ {
         currentTri := geometry.NewTriangleWithName(triangles[i*4], triangles[i*4+1], triangles[i*4+2], triangles[i*4+3], names[i])
         tris = append(tris, currentTri)
+        transformedTriangles = append(transformedTriangles, currentTri)
     }
 
     return &cubeObject{
         triangles: tris,
         current:   0,
-        transformation: geometry.NewMatrix44(
-            geometry.NewVector4(1, 0, 0, 0),
-            geometry.NewVector4(0, 1, 0, 0),
-            geometry.NewVector4(0, 0, 1, 0),
-            geometry.NewVector4(0, 0, 0, 1),
-        ),
+        transformedTriangles: transformedTriangles,
     }
 }
 
@@ -42,9 +39,9 @@ func (c cubeObject) HasNextTriangle() bool {
 
 func (c *cubeObject) NextTriangle() geometry.Triangle {
 	if c.HasNextTriangle() {
-		tri := c.triangles[c.current]
-		c.current++
-        return tri.Transform(c.transformation)
+	    tri := c.transformedTriangles[c.current]
+        c.current++
+        return tri
 	}
 	return geometry.Triangle{}
 }
@@ -54,7 +51,9 @@ func (c *cubeObject) Reset() {
 }
 
 func (c *cubeObject) Transform(matrix geometry.Matrix44) {
-    c.transformation = matrix
+    for index := range(c.triangles) {
+        c.transformedTriangles[index] = c.triangles[index].Transform(matrix)
+    }
 }
 
 var names = []string{

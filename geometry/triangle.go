@@ -8,14 +8,20 @@ type Triangle struct {
 	a, b, c Vector3
 	color   Vector3
 	name    string
+	areaABC float64
+	plane Plane
 }
 
 func NewTriangle(a, b, c Vector3, color Vector3) Triangle {
+	plane := NewPlane(a, Subtract(b, a), Subtract(c, a))
+	areaABC := ScalarProduct3(plane.Normal(), CrossProduct(Subtract(b, a), Subtract(c, a)))
 	return Triangle{
 		a:     a,
 		b:     b,
 		c:     c,
 		color: color,
+		areaABC: areaABC,
+		plane: plane,
 	}
 }
 
@@ -26,16 +32,14 @@ func NewTriangleWithName(a, b, c Vector3, color Vector3, name string) Triangle {
 }
 
 func (t Triangle) IsHit(ray *Ray) bool {
-	plane := NewPlane(t.a, Subtract(t.b, t.a), Subtract(t.c, t.a))
-	if ray.HitsPlane(plane) {
+	if ray.HitsPlane(t.plane) {
 		hitPoint, _ := ray.HitPoint()
 
-		areaABC := ScalarProduct3(plane.Normal(), CrossProduct(Subtract(t.b, t.a), Subtract(t.c, t.a)))
-		areaPBC := ScalarProduct3(plane.Normal(), CrossProduct(Subtract(t.b, hitPoint), Subtract(t.c, hitPoint)))
-		areaPCA := ScalarProduct3(plane.Normal(), CrossProduct(Subtract(t.c, hitPoint), Subtract(t.a, hitPoint)))
+		areaPBC := ScalarProduct3(t.plane.Normal(), CrossProduct(Subtract(t.b, hitPoint), Subtract(t.c, hitPoint)))
+		areaPCA := ScalarProduct3(t.plane.Normal(), CrossProduct(Subtract(t.c, hitPoint), Subtract(t.a, hitPoint)))
 
-		alpha := areaPBC / areaABC
-		beta := areaPCA / areaABC
+		alpha := areaPBC / t.areaABC
+		beta := areaPCA / t.areaABC
 		gamma := 1.0 - alpha - beta
 
 		if alpha >= 0.0 && alpha <= 1.0 && beta >= 0.0 && beta <= 1.0 && gamma >= 0.0 && gamma <= 1.0 {

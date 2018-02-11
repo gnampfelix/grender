@@ -23,7 +23,7 @@ var _ = Describe("Object", func() {
 
 		Expect(input.HasNextTriangle()).Should(BeTrue())
 		nextTri = input.NextTriangle()
-		Expect(nextTri.C().Y()).Should(Equal(20.0))
+		Expect(nextTri.C().Y()).Should(Equal(5.0))
 
 		Expect(input.HasNextTriangle()).Should(BeTrue())
 		nextTri = input.NextTriangle()
