@@ -6,17 +6,20 @@ import (
 
 	"github.com/gnampfelix/grender/geometry"
 	. "github.com/gnampfelix/grender/renderer"
+	"strconv"
 )
 
 var _ = Describe("Renderer", func() {
 	It("should render", func() {
 		object := NewCube()
 		input := NewInput()
-
-		object.Rotate(geometry.Z, 45)
 		input.Add(object)
 		renderer := New()
-		output := renderer.Render(input)
-		output.Save("renderer.png")
+
+		for i := 0; i < 1; i++ {
+			object.Rotate(geometry.Z, 1.2)
+			output := renderer.Render(input)
+			output.Save("tmp/"+strconv.Itoa(i)+".png")
+		}
 	})
 })

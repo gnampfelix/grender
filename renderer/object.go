@@ -67,8 +67,9 @@ func (c *cubeObject) Transform(matrix geometry.Matrix44) {
 }
 
 func (c *cubeObject) Rotate(axis geometry.Axis, angle float64) {
-	cosAngle := math.Cos(angle)
-	sinAngle := math.Sin(angle)
+    convertedAngle := geometry.DegToRad(angle)
+    cosAngle := math.Cos(convertedAngle)
+	sinAngle := math.Sin(convertedAngle)
 
 	var transformationMatrix geometry.Matrix44
 
@@ -95,7 +96,7 @@ func (c *cubeObject) Rotate(axis geometry.Axis, angle float64) {
 			geometry.NewVector4(0, 0, 0, 1),
 		)
 	}
-	c.Transform(c.transformationMatrix.Chain(transformationMatrix))
+	c.Transform(transformationMatrix.Chain(c.transformationMatrix))
 }
 
 var names = []string{
