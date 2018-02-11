@@ -43,18 +43,18 @@ func (v Vector4) A() float64 {
 }
 
 func ScalarProduct4(a, b Vector4) float64 {
-	result := a.X() * b.X()
-	result += a.Y() * b.Y()
-	result += a.Z() * b.Z()
-	result += a.A() * b.A()
+	result := a.x * b.x
+	result += a.y * b.y
+	result += a.z * b.z
+	result += a.a * b.a
 	return result
 }
 
 func (v Vector4) Transform(matrix Matrix44) Vector4{
-	newX := ScalarProduct4(matrix.A(), v)
-	newY := ScalarProduct4(matrix.B(), v)
-	newZ := ScalarProduct4(matrix.C(), v)
-	newA := ScalarProduct4(matrix.D(), v)
+	newX := ScalarProduct4(matrix.a, v)
+	newY := ScalarProduct4(matrix.b, v)
+	newZ := ScalarProduct4(matrix.c, v)
+	newA := ScalarProduct4(matrix.d, v)
 
 	return NewVector4(newX, newY, newZ, newA)
 }

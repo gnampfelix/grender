@@ -26,7 +26,7 @@ func (r Ray) U() Vector3 {
 }
 
 func (r *Ray) HitsPlane(p Plane) bool {
-	normal := p.Normal()
+	normal := p.n
 	// If the normal of the plane and the direction of the ray are orthogonal
 	// (scalarProduct = 0), ray and plane are parallel.
 	denominator := ScalarProduct3(r.u, normal)
@@ -35,7 +35,7 @@ func (r *Ray) HitsPlane(p Plane) bool {
 		tmp.Subtract(r.p)
 		t := ScalarProduct3(tmp, normal) / denominator
 		if t >= 0 {
-			hit := NewVector3(r.u.X(), r.u.Y(), r.u.Z())
+			hit := NewVector3(r.u.x, r.u.y, r.u.z)
 			hit.MultiplyWithScalar(t)
 			hit.Add(r.p)
 			r.hitPoint = hit

@@ -14,7 +14,7 @@ type Triangle struct {
 
 func NewTriangle(a, b, c Vector3, color Vector3) Triangle {
 	plane := NewPlane(a, Subtract(b, a), Subtract(c, a))
-	areaABC := ScalarProduct3(plane.Normal(), CrossProduct(Subtract(b, a), Subtract(c, a)))
+	areaABC := ScalarProduct3(plane.n, CrossProduct(Subtract(b, a), Subtract(c, a)))
 	return Triangle{
 		a:     a,
 		b:     b,
@@ -35,8 +35,8 @@ func (t Triangle) IsHit(ray *Ray) bool {
 	if ray.HitsPlane(t.plane) {
 		hitPoint, _ := ray.HitPoint()
 
-		areaPBC := ScalarProduct3(t.plane.Normal(), CrossProduct(Subtract(t.b, hitPoint), Subtract(t.c, hitPoint)))
-		areaPCA := ScalarProduct3(t.plane.Normal(), CrossProduct(Subtract(t.c, hitPoint), Subtract(t.a, hitPoint)))
+		areaPBC := ScalarProduct3(t.plane.n, CrossProduct(Subtract(t.b, hitPoint), Subtract(t.c, hitPoint)))
+		areaPCA := ScalarProduct3(t.plane.n, CrossProduct(Subtract(t.c, hitPoint), Subtract(t.a, hitPoint)))
 
 		alpha := areaPBC / t.areaABC
 		beta := areaPCA / t.areaABC
@@ -71,9 +71,9 @@ func (t Triangle) Color() Vector3 {
 
 func (t Triangle) Transform(matrix Matrix44) Triangle {
 	return NewTriangle(
-		NewVector4FromVector3(t.A(), 1).Transform(matrix).ExtractVector3(),
-		NewVector4FromVector3(t.B(), 1).Transform(matrix).ExtractVector3(),
-		NewVector4FromVector3(t.C(), 1).Transform(matrix).ExtractVector3(),
-		t.Color(),
+		NewVector4FromVector3(t.a, 1).Transform(matrix).ExtractVector3(),
+		NewVector4FromVector3(t.b, 1).Transform(matrix).ExtractVector3(),
+		NewVector4FromVector3(t.c, 1).Transform(matrix).ExtractVector3(),
+		t.color,
 	)
 }
