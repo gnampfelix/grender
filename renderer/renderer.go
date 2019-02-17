@@ -8,16 +8,19 @@ type Renderer interface {
 	Render(input Input) Output
 }
 
-type gnampfelixRenderer bool
-
-func New() Renderer {
-	return gnampfelixRenderer(true)
+type gnampfelixRenderer struct {
+	output Output
 }
 
+func New(output Output) Renderer {
+	return gnampfelixRenderer{output:output}
+}
+
+
 func (g gnampfelixRenderer) Render(input Input) Output {
-	width := 1600
-	height := 900
-	output := NewSimpleOutput(height, width)
+	width := 480
+	height := 270
+	output := g.output
 	depth := NewMapBuffer()
 
 	camera := NewCamera(geometry.NewVector3(0, -20, 0), 2)
