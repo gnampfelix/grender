@@ -3,7 +3,7 @@ package geometry
 type Axis int
 
 const (
-    X Axis = iota
-    Y
-    Z
+	X Axis = iota
+	Y
+	Z
 )

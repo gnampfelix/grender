@@ -18,8 +18,9 @@ var _ = Describe("Renderer", func() {
 
 		for i := 0; i < 1; i++ {
 			object.Rotate(geometry.Z, 1.2)
-			output := renderer.Render(input)
-			output.Save("tmp/"+strconv.Itoa(i)+".png")
+			output := NewSimpleOutput(270, 480)
+			renderer.Render(input, output)
+			output.Save("tmp/" + strconv.Itoa(i) + ".png")
 		}
 	})
 })

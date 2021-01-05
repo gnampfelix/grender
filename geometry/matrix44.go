@@ -13,7 +13,7 @@ func NewMatrix44(a, b, c, d Vector4) Matrix44 {
 	}
 }
 
-func (m Matrix44)Chain(matrix Matrix44) Matrix44 {
+func (m Matrix44) Chain(matrix Matrix44) Matrix44 {
 	col1 := NewVector4(matrix.a.x, matrix.b.x, matrix.c.x, matrix.d.x)
 	col2 := NewVector4(matrix.a.y, matrix.b.y, matrix.c.y, matrix.d.y)
 	col3 := NewVector4(matrix.a.z, matrix.b.z, matrix.c.z, matrix.d.z)
@@ -47,10 +47,10 @@ func (m Matrix44)Chain(matrix Matrix44) Matrix44 {
 		ScalarProduct4(m.d, col4),
 	)
 	return Matrix44{
-		a:a,
-		b:b,
-		c:c,
-		d:d,
+		a: a,
+		b: b,
+		c: c,
+		d: d,
 	}
 }
 

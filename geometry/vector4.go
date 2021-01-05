@@ -50,7 +50,7 @@ func ScalarProduct4(a, b Vector4) float64 {
 	return result
 }
 
-func (v Vector4) Transform(matrix Matrix44) Vector4{
+func (v Vector4) Transform(matrix Matrix44) Vector4 {
 	newX := ScalarProduct4(matrix.a, v)
 	newY := ScalarProduct4(matrix.b, v)
 	newZ := ScalarProduct4(matrix.c, v)

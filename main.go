@@ -1,15 +1,14 @@
 package main
 
 import (
-	"github.com/julienschmidt/httprouter"
-  "github.com/gnampfelix/pub"
-	"felix/canvas/api"
-  "log"
-  "net/http"
+	"github.com/gnampfelix/grender/api"
 	"github.com/gnampfelix/grender/geometry"
-	. "github.com/gnampfelix/grender/renderer"
+	"github.com/gnampfelix/grender/renderer"
+	"github.com/gnampfelix/pub"
+	"github.com/julienschmidt/httprouter"
+	"log"
+	"net/http"
 )
-
 
 type NotFound struct{}
 
@@ -23,30 +22,32 @@ func NewRouter() *httprouter.Router {
 	return router
 }
 
-
 func main() {
-  myPub = pub.New()
+	myPub = pub.New()
 	api.SetPublisher(myPub)
 
-	object := NewCube()
-	input := NewInput()
+	object := renderer.NewCube()
+	input := renderer.NewInput()
 	input.Add(object)
-	renderer := New(NewStreamerOutput(270, 480))
+	output := NewStreamerOutput(270, 480)
+	renderer := renderer.New()
 
-	for i := 0; i < 1; i++ {
-		object.Rotate(geometry.Z, 1.2)
-		go renderer.Render(input)
-}
+	go func() {
+		for {
+			object.Rotate(geometry.Z, 1.2)
+			renderer.Render(input, output)
+		}
+	}()
 
-  frontendRouter := NewRouter()
-  frontendRouter.ServeFiles("/*filepath", http.Dir("html/"))
+	frontendRouter := NewRouter()
+	frontendRouter.ServeFiles("/*filepath", http.Dir("html/"))
 
 	router := NewRouter()
-  router.GET("/api/ws", api.ServeWebsocket)
+	router.GET("/api/ws", api.ServeWebsocket)
 
-  middleware := api.Middleware{}
-  middleware.Add(router, false) //--> The api could return a 404 in terms of "ressource not found"
-  middleware.Add(frontendRouter, true) //--> Don't handle 404-Erros, let the frontend handle them!
+	middleware := api.Middleware{}
+	middleware.Add(router, false)        //--> The api could return a 404 in terms of "ressource not found"
+	middleware.Add(frontendRouter, true) //--> Don't handle 404-Erros, let the frontend handle them!
 	log.Println("Starting server..")
-  log.Fatal(http.ListenAndServe(":8000", middleware))
+	log.Fatal(http.ListenAndServe(":8000", middleware))
 }

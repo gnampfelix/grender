@@ -5,24 +5,22 @@ import (
 )
 
 type Renderer interface {
-	Render(input Input) Output
+	Render(input Input, output Output)
 }
 
 type gnampfelixRenderer struct {
-	output Output
 }
 
-func New(output Output) Renderer {
-	return gnampfelixRenderer{output:output}
+func New() Renderer {
+	return gnampfelixRenderer{}
 }
 
-
-func (g gnampfelixRenderer) Render(input Input) Output {
-	width := 480
-	height := 270
-	output := g.output
+func (g gnampfelixRenderer) Render(input Input, output Output) {
+	width := output.Width()
+	height := output.Height()
 	depth := NewMapBuffer()
 
+	world := geometry.NewVector3(0, 0, 0)
 	camera := NewCamera(geometry.NewVector3(0, -20, 0), 2)
 	screen := camera.Screen()
 	lineLength := camera.LineLength()
@@ -33,7 +31,7 @@ func (g gnampfelixRenderer) Render(input Input) Output {
 
 	for y := 0; y < height; y++ {
 		for x := 0; x < width; x++ {
-
+			output.SetPixel(world, x, y)
 			screenPoint := screen.P()
 			screenU := screen.U()
 			screenV := screen.V()
@@ -62,5 +60,4 @@ func (g gnampfelixRenderer) Render(input Input) Output {
 			input.Reset()
 		}
 	}
-	return output
 }

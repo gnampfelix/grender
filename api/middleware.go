@@ -1,10 +1,10 @@
 package api
 
 import (
+	"bufio"
+	"errors"
+	"net"
 	"net/http"
-    "net"
-    "errors"
-    "bufio"
 )
 
 //	Wrap handler in own structure to redirect to an own 404-Handler.
@@ -17,10 +17,10 @@ type Middleware []handlerSet
 
 type MiddlewareResponseWriter struct {
 	http.ResponseWriter
-	isWritten bool
+	isWritten   bool
 	redirect404 bool
 	forbidWrite bool
-    hijacker http.Hijacker
+	hijacker    http.Hijacker
 }
 
 func (m *Middleware) Add(handler http.Handler, redirect404 bool) {
@@ -49,10 +49,10 @@ func (m Middleware) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 }
 
 func NewMiddlewareResponseWriter(w http.ResponseWriter) *MiddlewareResponseWriter {
-    hijacker, _ := w.(http.Hijacker)
-    return &MiddlewareResponseWriter{
+	hijacker, _ := w.(http.Hijacker)
+	return &MiddlewareResponseWriter{
 		ResponseWriter: w,
-        hijacker: hijacker,
+		hijacker:       hijacker,
 	}
 }
 
@@ -85,9 +85,9 @@ func (r *MiddlewareResponseWriter) Hijack() (net.Conn, *bufio.ReadWriter, error)
 	if r.hijacker == nil {
 		return nil, nil, errors.New("http.Hijacker not implemented by underlying http.ResponseWriter")
 	}
-    c, b, e := r.hijacker.Hijack()
-    if e == nil {
-        r.forbidWrite = true
-    }
+	c, b, e := r.hijacker.Hijack()
+	if e == nil {
+		r.forbidWrite = true
+	}
 	return c, b, e
 }

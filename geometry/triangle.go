@@ -9,19 +9,19 @@ type Triangle struct {
 	color   Vector3
 	name    string
 	areaABC float64
-	plane Plane
+	plane   Plane
 }
 
 func NewTriangle(a, b, c Vector3, color Vector3) Triangle {
 	plane := NewPlane(a, Subtract(b, a), Subtract(c, a))
 	areaABC := ScalarProduct3(plane.n, CrossProduct(Subtract(b, a), Subtract(c, a)))
 	return Triangle{
-		a:     a,
-		b:     b,
-		c:     c,
-		color: color,
+		a:       a,
+		b:       b,
+		c:       c,
+		color:   color,
 		areaABC: areaABC,
-		plane: plane,
+		plane:   plane,
 	}
 }
 

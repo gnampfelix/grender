@@ -3,21 +3,15 @@ const WIDTH = 480;
 
 var currentLine = 0;
 
-function drawLine(lineContent) {
-	if (currentLine >= HEIGHT) {
-		currentLine = 0;
-	}
-	for (var i = 0; i < lineContent.length; i++) {
-		ctx.fillStyle = `rgba(${lineContent[i].r},${lineContent[i].g},${lineContent[i].b})`
-		ctx.fillRect(i, currentLine, 1, 1);
-	}
-	currentLine++;
+function drawDot(dotContent) {
+	ctx.fillStyle = `rgba(${dotContent.r},${dotContent.g},${dotContent.b})`
+	ctx.fillRect(dotContent.x, dotContent.y, 1, 1);
 }
 
 var connection = new WebSocket('ws://localhost:8000/api/ws');
 connection.onmessage = function (e) {
-	newLine = JSON.parse(e.data);
-	drawLine(newLine);
+	newDot = JSON.parse(e.data);
+	drawDot(newDot);
 }
 
 var c = document.getElementById("renderer");
