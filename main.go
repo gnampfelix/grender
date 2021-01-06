@@ -1,53 +1,38 @@
 package main
 
 import (
-	"github.com/gnampfelix/grender/api"
 	"github.com/gnampfelix/grender/geometry"
 	"github.com/gnampfelix/grender/renderer"
-	"github.com/gnampfelix/pub"
-	"github.com/julienschmidt/httprouter"
-	"log"
-	"net/http"
+	"github.com/gonutz/prototype/draw"
 )
 
-type NotFound struct{}
+const height int = 270
+const width int = 480
 
-func (n *NotFound) ServeHTTP(w http.ResponseWriter, r *http.Request) {
+var object renderer.Object
+var input renderer.Input
+var rend renderer.Renderer
+var output renderer.Output
+
+type liveOutput struct {
+	renderer.Output
+	window draw.Window
 }
 
-func NewRouter() *httprouter.Router {
-	router := httprouter.New()
-	notFound := new(NotFound)
-	router.NotFound = notFound
-	return router
+func (l liveOutput) SetPixel(c geometry.Vector3, x, y int) {
+	l.window.DrawPoint(x, y, draw.RGB(float32(c.X()/255), float32(c.Y()/255), float32(c.Z()/255)))
 }
 
 func main() {
-	myPub = pub.New()
-	api.SetPublisher(myPub)
-
-	object := renderer.NewCube()
-	input := renderer.NewInput()
+	object = renderer.NewCube()
+	input = renderer.NewInput()
 	input.Add(object)
-	output := NewStreamerOutput(270, 480)
-	renderer := renderer.New()
+	rend = renderer.New()
+	output = renderer.NewSimpleOutput(height, width)
+	draw.RunWindow("grender", width, height, update)
+}
 
-	go func() {
-		for {
-			object.Rotate(geometry.Z, 1.2)
-			renderer.Render(input, output)
-		}
-	}()
-
-	frontendRouter := NewRouter()
-	frontendRouter.ServeFiles("/*filepath", http.Dir("html/"))
-
-	router := NewRouter()
-	router.GET("/api/ws", api.ServeWebsocket)
-
-	middleware := api.Middleware{}
-	middleware.Add(router, false)        //--> The api could return a 404 in terms of "ressource not found"
-	middleware.Add(frontendRouter, true) //--> Don't handle 404-Erros, let the frontend handle them!
-	log.Println("Starting server..")
-	log.Fatal(http.ListenAndServe(":8000", middleware))
+func update(window draw.Window) {
+	object.Rotate(geometry.Z, 1.2)
+	rend.Render(input, liveOutput{output, window})
 }
