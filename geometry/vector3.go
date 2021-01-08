@@ -58,7 +58,7 @@ func (v *Vector3) MultiplyWithScalar(s float64) {
 
 // Length calculates the length of the vector.
 func (v Vector3) Length() float64 {
-	sumOfSquares := math.Pow(v.x, 2) + math.Pow(v.y, 2) + math.Pow(v.z, 2)
+	sumOfSquares := v.x*v.x + v.y*v.y + v.z*v.z
 	return math.Sqrt(sumOfSquares)
 }
 
@@ -73,10 +73,7 @@ func (v Vector3) String() string {
 
 // ScalarProduct3 calculates the scalar (dot) product of two vector3.
 func ScalarProduct3(a, b Vector3) float64 {
-	result := a.x * b.x
-	result += a.y * b.y
-	result += a.z * b.z
-	return result
+	return a.x*b.x + a.y*b.y + a.z*b.z
 }
 
 // CrossProduct returns the cross product of two vectors.
