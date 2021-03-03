@@ -56,6 +56,10 @@ func (v *Vector3) MultiplyWithScalar(s float64) {
 	v.z *= s
 }
 
+func (v Vector3) ExtractVector2() Vector2 {
+	return NewVector2(v.x, v.y)
+}
+
 // Length calculates the length of the vector.
 func (v Vector3) Length() float64 {
 	sumOfSquares := v.x*v.x + v.y*v.y + v.z*v.z

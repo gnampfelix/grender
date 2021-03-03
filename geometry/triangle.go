@@ -77,3 +77,21 @@ func (t Triangle) Transform(matrix Matrix44) Triangle {
 		t.color,
 	)
 }
+
+func (t *Triangle) DividePerspective(nearClippingPlane float64) {
+	t.a = NewVector3((nearClippingPlane*t.a.x)/-t.a.z, (nearClippingPlane*t.a.y)/-t.a.z, -t.a.z)
+	t.b = NewVector3((nearClippingPlane*t.b.x)/-t.b.z, (nearClippingPlane*t.b.y)/-t.b.z, -t.b.z)
+	t.c = NewVector3((nearClippingPlane*t.c.x)/-t.c.z, (nearClippingPlane*t.c.y)/-t.c.z, -t.c.z)
+}
+
+func (t *Triangle) MapToNdcSpace(top, right, bottom, left float64) {
+	t.a = NewVector3((2*t.a.x)/(right-left)-(right+left)/(right-left), (2*t.a.y)/(top-bottom)-(top+bottom)/(top-bottom), t.a.z)
+	t.b = NewVector3((2*t.b.x)/(right-left)-(right+left)/(right-left), (2*t.b.y)/(top-bottom)-(top+bottom)/(top-bottom), t.b.z)
+	t.c = NewVector3((2*t.c.x)/(right-left)-(right+left)/(right-left), (2*t.c.y)/(top-bottom)-(top+bottom)/(top-bottom), t.c.z)
+}
+
+func (t *Triangle) MapToRasterSpacer(height, width int) {
+	t.a = NewVector3((t.a.x+1)/2*float64(width), (1-t.a.y)/2*float64(height), t.a.z)
+	t.b = NewVector3((t.b.x+1)/2*float64(width), (1-t.b.y)/2*float64(height), t.b.z)
+	t.c = NewVector3((t.c.x+1)/2*float64(width), (1-t.c.y)/2*float64(height), t.c.z)
+}

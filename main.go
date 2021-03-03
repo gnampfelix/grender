@@ -27,7 +27,7 @@ func main() {
 	object = renderer.NewCube()
 	input = renderer.NewInput()
 	input.Add(object)
-	rend = renderer.New()
+	rend = renderer.NewRasterizationRenderer()
 	output = renderer.NewSimpleOutput(height, width)
 	draw.RunWindow("grender", width, height, update)
 }

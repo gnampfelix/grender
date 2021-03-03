@@ -1,8 +1,9 @@
 package renderer
 
 import (
-	"github.com/gnampfelix/grender/geometry"
 	"math"
+
+	"github.com/gnampfelix/grender/geometry"
 )
 
 type Object interface {
@@ -100,19 +101,32 @@ func (c *cubeObject) Rotate(axis geometry.Axis, angle float64) {
 }
 
 var names = []string{
-	"front", "front", "unten", "unten", "rechts", "rechts", "links", "links", "oben", "oben",
+	"front", "front", "unten", "unten", "rechts", "rechts", "links", "links", "oben", "oben", "front", "front", "unten", "unten", "rechts", "rechts", "links", "links", "oben", "oben",
 }
 
 var triangles = []geometry.Vector3{
-	geometry.NewVector3(-5, -5, -5), geometry.NewVector3(5, -5, -5), geometry.NewVector3(5, -5, 5), geometry.NewVector3(255, 255, 0), //front
-	geometry.NewVector3(-5, -5, -5), geometry.NewVector3(5, -5, 5), geometry.NewVector3(-5, -5, 5), geometry.NewVector3(255, 255, 0),
-	geometry.NewVector3(-5, -5, -5), geometry.NewVector3(5, -5, -5), geometry.NewVector3(-5, 5, -5), geometry.NewVector3(255, 0, 0), //unten
-	geometry.NewVector3(5, -5, -5), geometry.NewVector3(-5, 5, -5), geometry.NewVector3(5, 5, -5), geometry.NewVector3(255, 0, 0),
-	geometry.NewVector3(5, -5, -5), geometry.NewVector3(5, -5, 5), geometry.NewVector3(5, 5, -5), geometry.NewVector3(0, 255, 0), //rechts
-	geometry.NewVector3(5, -5, 5), geometry.NewVector3(5, 5, 5), geometry.NewVector3(5, 5, -5), geometry.NewVector3(0, 255, 0),
+	geometry.NewVector3(-5, -10, -5), geometry.NewVector3(-5, 0, -5), geometry.NewVector3(5, -10, -5), geometry.NewVector3(191, 97, 106), //red, front
+	//geometry.NewVector3(5, -10, -5), geometry.NewVector3(-5, 0, -5), geometry.NewVector3(5, 0, -5), geometry.NewVector3(191, 97, 106), //red
 
-	geometry.NewVector3(-5, -5, -5), geometry.NewVector3(-5, -5, 5), geometry.NewVector3(-5, 5, -5), geometry.NewVector3(0, 0, 255), //links
-	geometry.NewVector3(-5, -5, 5), geometry.NewVector3(-5, 5, -5), geometry.NewVector3(-5, 5, 5), geometry.NewVector3(0, 0, 255),
-	geometry.NewVector3(-5, -5, 5), geometry.NewVector3(5, -5, 5), geometry.NewVector3(-5, 5, 5), geometry.NewVector3(0, 255, 255), //oben
-	geometry.NewVector3(5, -5, 5), geometry.NewVector3(-5, 5, 5), geometry.NewVector3(5, 5, 5), geometry.NewVector3(0, 255, 255),
+	geometry.NewVector3(5, -10, -5), geometry.NewVector3(5, -10, -15), geometry.NewVector3(5, 0, -5), geometry.NewVector3(143, 188, 187), //blueish, right side
+	geometry.NewVector3(5, 0, -5), geometry.NewVector3(5, 0, -15), geometry.NewVector3(5, -10, -15), geometry.NewVector3(143, 188, 187), //blueish, right side
+
+	geometry.NewVector3(-5, -10, -5), geometry.NewVector3(-5, -10, -15), geometry.NewVector3(5, -10, -5), geometry.NewVector3(236, 239, 244), //white, bottom
+	geometry.NewVector3(-5, -10, -15), geometry.NewVector3(5, -10, -15), geometry.NewVector3(5, -10, -5), geometry.NewVector3(236, 239, 244), //white, bottom
+
+	geometry.NewVector3(-5, -10, -15), geometry.NewVector3(-5, 0, -15), geometry.NewVector3(5, -10, -15), geometry.NewVector3(191, 97, 106), //red, back
+	geometry.NewVector3(5, -10, -15), geometry.NewVector3(-5, 0, -15), geometry.NewVector3(5, 0, -15), geometry.NewVector3(191, 97, 106), //red
+
+	geometry.NewVector3(-5, -10, -5), geometry.NewVector3(-5, -10, -15), geometry.NewVector3(-5, 0, -5), geometry.NewVector3(143, 188, 187), //blueish, left side
+	geometry.NewVector3(-5, 0, -5), geometry.NewVector3(-5, 0, -15), geometry.NewVector3(-5, -10, -15), geometry.NewVector3(143, 188, 187), //blueish, left side
+
+	geometry.NewVector3(-5, 0, -5), geometry.NewVector3(-5, 0, -15), geometry.NewVector3(5, 0, -5), geometry.NewVector3(236, 239, 244), //white, top
+	geometry.NewVector3(-5, 0, -15), geometry.NewVector3(5, 0, -15), geometry.NewVector3(5, 0, -5), geometry.NewVector3(236, 239, 244), //white, top
+
+	//geometry.NewVector3(-4, 0, -5), geometry.NewVector3(6, 0, -5), geometry.NewVector3(-4, 0, -10), geometry.NewVector3(143, 188, 187), //blueish
+	//geometry.NewVector3(-5, -5, -5), geometry.NewVector3(-5, 5, -5), geometry.NewVector3(5, -5, -5), geometry.NewVector3(143, 188, 187), //blueish
+
+	//geometry.NewVector3(-5, 5, -5), geometry.NewVector3(5, 5, -5), geometry.NewVector3(-5, 5, 5), geometry.NewVector3(143, 188, 187), //blueish
+	//geometry.NewVector3(5, 5, -5), geometry.NewVector3(-5, 5, 5), geometry.NewVector3(5, 5, 5), geometry.NewVector3(143, 188, 187), //blueish
+
 }
